@@ -59,9 +59,7 @@ exports.readdAllTransaction = async (req, res) => {
       hospital_id: process.env.RUMAH_SAKIT_ID,
     });
 
-    return res.json({
-      transaction,
-    });
+    return res.json(transaction);
   } catch (err) {
     console.log("Get Data Error", errorHandler(err));
     return res.status(401).json({
