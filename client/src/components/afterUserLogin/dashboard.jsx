@@ -33,24 +33,17 @@ const Dashboard = () => {
   const [startBalance, setStartingBalance] = useState(false);
   const [isRendered, setRendered] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password1: "",
-    textChange: "Update",
-    role: "",
-    tabungan: "",
+    nama_rumah_sakit: "",
+    saldo: "",
     pemasukan: "",
     pengeluaran: "",
-    link_profil: "",
-    initialValue: "",
-    isHavingInit: "",
   });
   const [newUser, setNewUser] = useState({
     photo: "",
   });
 
   const { initialValue, isHavingInit } = formData;
-
+  console.log(formData);
   useEffect(() => {
     setTimeout(() => {
       setRendered(true);
@@ -62,36 +55,22 @@ const Dashboard = () => {
   const loadProfile = () => {
     const token = getCookie("token"); //mengambil token yang disimpan di dalam cookie
     axios
-      .get(`${process.env.REACT_APP_API_URL}/user/${isAuth()._id}`, {
+      .get(`${process.env.REACT_APP_API_URL}/hospital/read`, {
         headers: {
           // masih bingung gunanya headers ?
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
-        const {
-          role,
-          name,
-          email,
-          link_profil,
-          institusi,
-          pemasukan,
-          pengeluaran,
-          tabungan,
-          isHavingInit,
-        } = res.data;
+        const { nama_rumah_sakit, saldo, pemasukan, pengeluaran } = res.data;
         setFormData({
           ...formData,
-          role,
-          name,
-          email,
-          institusi,
+          nama_rumah_sakit,
+          saldo,
           pemasukan,
           pengeluaran,
-          tabungan,
-          link_profil,
-          isHavingInit,
         });
+        console.log(formData);
       })
       .catch((err) => {
         // toast.error(`Error To Your Information ${err.response.statusText}`);
@@ -183,7 +162,7 @@ const Dashboard = () => {
                       {" "}
                       {!startBalance ? (
                         <>
-                          <button
+                          {/* <button
                             onClick={(e) => setStartingBalance(true)}
                             className=" bg-[#319C69]   place-items-start rounded-md px-2 py-1 items-center text-white flex font-normal text-base"
                           >
@@ -198,7 +177,7 @@ const Dashboard = () => {
                               </div>
                               <div className="flex xm:hidden">Start</div>
                             </div>
-                          </button>
+                          </button> */}
                         </>
                       ) : (
                         <div className="bg-[#319C69] text-base font-normal justify-between focus:border-none rounded-md  w-[20rem] h-[40%] flex py-[0.30rem] px-2 ">
