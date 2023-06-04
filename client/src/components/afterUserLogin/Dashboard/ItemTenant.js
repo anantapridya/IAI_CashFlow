@@ -15,7 +15,7 @@ import {
 export default function ItemTenant(props, test) {
   useEffect(() => {}, []);
   const [deleted, setDeleted] = useState(false);
-  console.log(props.itemData.pemasukan);
+  // console.log(props.itemData.pemasukan);
 
   const handleOpenWarning = (e) => {
     setDeleted(!deleted);
@@ -73,8 +73,8 @@ export default function ItemTenant(props, test) {
   const [src, setSrc] = useState(
     `/data/tenant/${props.itemData.id_tenant}/${props.itemData.tenantLogo}`
   );
-  console.log(src);
-  console.log(props.pemasukan);
+  // console.log(src);
+  // console.log(props.pemasukan);
   // console.log(itemData);
   return (
     <>

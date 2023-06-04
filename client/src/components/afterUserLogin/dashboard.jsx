@@ -38,19 +38,62 @@ const Dashboard = () => {
     pemasukan: "",
     pengeluaran: "",
   });
+  const [dataHospital, setDataHospital] = useState({
+    loading: false,
+    data: null,
+  });
   const [newUser, setNewUser] = useState({
     photo: "",
   });
 
   const { initialValue, isHavingInit } = formData;
-  console.log(formData);
+  // console.log(formData);
   useEffect(() => {
     setTimeout(() => {
       setRendered(true);
     }, 1000);
+    getHospital({
+      loading: true,
+      data: null,
+    });
     loadProfile();
     loadPost();
+    // getUsers();
+    // console.log("cek");
+    // console.log(formData);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const getHospital = () => {
+    axios.get(`http://localhost:5000/api/hospital/read`).then((res) =>
+      setDataHospital({
+        loading: false,
+        data: res.data,
+        // const data = res.data;
+        // console.log("cekdata");
+        // console.log(data);
+        // setDataHospital(data);
+        // console.log(dataHospital);
+      })
+    );
+  };
+
+  const [users, setUser] = useState("");
+
+  useEffect(() => {
+    // getUsers();
+    // hospital();
+  }, []);
+
+  // async function hospital() {
+  //   const response = await fetch("http://localhost:5000/api/hospital/read");
+  //   console.log(response);
+  // }
+
+  // const getUsers = async () => {
+  //   const response = await axios.get("http://localhost:5000/api/hospital/read");
+  //   setUser(response.data);
+  //   console.log(users);
+  // };
 
   const loadProfile = () => {
     const token = getCookie("token"); //mengambil token yang disimpan di dalam cookie
@@ -62,7 +105,7 @@ const Dashboard = () => {
         },
       })
       .then((res) => {
-        const { nama_rumah_sakit, saldo, pemasukan, pengeluaran } = res.data;
+        const { nama_rumah_sakit, saldo, pengeluaran, pemasukan } = res.data;
         setFormData({
           ...formData,
           nama_rumah_sakit,
@@ -70,7 +113,6 @@ const Dashboard = () => {
           pemasukan,
           pengeluaran,
         });
-        console.log(formData);
       })
       .catch((err) => {
         // toast.error(`Error To Your Information ${err.response.statusText}`);
@@ -81,6 +123,7 @@ const Dashboard = () => {
         }
       });
   };
+  // console.log(formData);
   const loadPost = () => {
     const token = getCookie("token"); //mengambil token yang disimpan di dalam cookie
     axios
@@ -92,9 +135,9 @@ const Dashboard = () => {
       })
       .then((res) => {
         const data = res.data;
-        console.log(data);
+        // console.log(data);
         setData(res.data);
-        console.log(dataTransaksi);
+        // console.log(dataTransaksi);
 
         console.log("test iin adalah useEffect");
       })
@@ -145,6 +188,24 @@ const Dashboard = () => {
   const { name, email, textChange, pemasukan, pengeluaran, tabungan } =
     formData;
 
+  let saldoRS = null;
+  if (dataHospital.data) {
+    saldoRS = dataHospital.data.hospital.saldo;
+  } else {
+    saldoRS = "......";
+  }
+  let pemasukanRS = null;
+  if (dataHospital.data) {
+    pemasukanRS = dataHospital.data.hospital.pemasukan;
+  } else {
+    pemasukanRS = "......";
+  }
+  let pengeluaranRS = null;
+  if (dataHospital.data) {
+    pengeluaranRS = dataHospital.data.hospital.pengeluaran;
+  } else {
+    pengeluaranRS = "......";
+  }
   return (
     <div className="font-Roboto">
       <Navbar />
@@ -157,71 +218,22 @@ const Dashboard = () => {
               <div className="xs:ml-4 items-center w-fit ">
                 Your Money
                 <div className="font-medium h-3/5 place-items-start flex items-center">
-                  {!isHavingInit ? (
-                    <>
-                      {" "}
-                      {!startBalance ? (
-                        <>
-                          {/* <button
-                            onClick={(e) => setStartingBalance(true)}
-                            className=" bg-[#319C69]   place-items-start rounded-md px-2 py-1 items-center text-white flex font-normal text-base"
-                          >
-                            <img
-                              className="mr-1 "
-                              src={PlusCircle}
-                              alt="PlusCircle"
-                            />
-                            <div className="bg-[#319C69] flex">
-                              <div className="hidden xm:flex">
-                                Add your starting balance
-                              </div>
-                              <div className="flex xm:hidden">Start</div>
-                            </div>
-                          </button> */}
-                        </>
-                      ) : (
-                        <div className="bg-[#319C69] text-base font-normal justify-between focus:border-none rounded-md  w-[20rem] h-[40%] flex py-[0.30rem] px-2 ">
-                          <form
-                            onSubmit={AddInitalValue}
-                            className="flex w-full justify-between"
-                          >
-                            <input
-                              placeholder="Input your starting balance"
-                              onChange={handleChange("initialValue")}
-                              value={initialValue}
-                              type="number"
-                              className="bg-white rounded-md w-[80%] px-2 h-full"
-                            ></input>
-                            <button type="submit" className="h-fit">
-                              <img
-                                className="h-6 cursor-pointer"
-                                src={CheckCircle}
-                              ></img>
-                            </button>
-                            <img
-                              onClick={(e) => setStartingBalance(false)}
-                              className="cursor-pointer"
-                              src={CheckCircle}
-                            ></img>
-                          </form>
-                        </div>
-                      )}
-                    </>
-                  ) : (
-                    <div>Rp {tabungan}</div>
-                  )}
+                  {/* <div>Rp {dataHospital.hospital.saldo}</div> */}
+                  <div>Rp {saldoRS}</div>
                 </div>
               </div>
               <div className="">
                 Total Expense
                 <div className="font-medium grid h-3/5 place-items-start items-center xs:text-xl ">
-                  Rp {pengeluaran}
+                  {/* Rp {dataHospital.hospital.pengeluaran} */}
+                  <div>Rp {pengeluaranRS}</div>
                 </div>
               </div>
               <div className="">
                 Total Income
                 <div className="font-medium grid h-3/5  place-items-start items-center  xm:text-xl ">
-                  Rp {pemasukan}
+                  {/* Rp {dataHospital.hospital.pemasukan} */}
+                  <div>Rp {pemasukanRS}</div>
                 </div>
               </div>
             </div>
