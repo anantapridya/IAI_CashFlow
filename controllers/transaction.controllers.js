@@ -1,6 +1,7 @@
 const transactionModel = require("../models/transaction.models");
 const hospitalModel = require("../models/hospital_cash.models");
 const { errorHandler } = require("../helpers/dbErrorHandling.js");
+const axios = require("axios");
 
 exports.createTransaction = async (req, res) => {
   const { pengeluaran, pemasukan, instansi, dokter_id, obat_id, deskripsi } =
@@ -21,7 +22,14 @@ exports.createTransaction = async (req, res) => {
       hospital_id,
     });
 
-    await transaction.save(); // Save the transaction using await
+    await transaction.save((err, usesr) => {
+      if (err) {
+        console.log("Save error", errorHandler(err));
+        return res.status(401).json({
+          errors: errorHandler(err),
+        });
+      }
+    });
 
     const hospital = await hospitalModel.findOne({
       _id: process.env.RUMAH_SAKIT_ID,
@@ -35,7 +43,14 @@ exports.createTransaction = async (req, res) => {
     //saving the data
     hospital.saldo = hospital.saldo + pemasukan;
 
-    await hospital.save();
+    await hospital.save((err, usesr) => {
+      if (err) {
+        console.log("Save error", errorHandler(err));
+        return res.status(401).json({
+          errors: errorHandler(err),
+        });
+      }
+    });
 
     return res.json({
       success: true,
@@ -80,7 +95,9 @@ exports.addInventSaldo = async (req, res) => {
     await hospital.save();
 
     axios
-      .post("http://serverlain.com/getsaldo", { saldo })
+      .post(`${process.env.SERVER_INVENT_APP}/api/balances/post`, {
+        balance: saldo,
+      })
       .then((response) => {
         res.send(response.data);
       })
