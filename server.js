@@ -23,10 +23,7 @@ const transRouter = require("./routes/transaction.routes");
 const hopsitalRouter = require("./routes/hospital.route");
 
 // Dev Logginf Middleware
-
-// app.use(cors({
-//     origin: process.env.CLIENT_URL
-// }))
+app.use(cors());
 app.use(morgan("dev"));
 
 // Use Routes

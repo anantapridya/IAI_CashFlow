@@ -105,7 +105,7 @@ const Dashboard = () => {
   const loadPost = () => {
     const token = getCookie("token"); //mengambil token yang disimpan di dalam cookie
     axios
-      .get(`${process.env.REACT_APP_API_URL}/readpost/${isAuth()._id}`, {
+      .get(`${process.env.REACT_APP_API_URL}/transaction/read`, {
         headers: {
           // masih bingung gunanya headers ?
           Authorization: `Bearer ${token}`,
