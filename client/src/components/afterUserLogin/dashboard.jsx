@@ -15,7 +15,7 @@ import PlusCircle from "../../assets/PlusCircle.svg";
 import CheckCircle from "../../assets/CheckCircle (1).png";
 import Navbar from "./navbar";
 import BarData from "../chart/page/BarData";
-
+import AddTransaction from "../afterUserLogin/addtransaction.jsx";
 import { ToastContainer, toast } from "react-toastify";
 
 const Dashboard = () => {
@@ -32,6 +32,7 @@ const Dashboard = () => {
   const [dataTransaksi, setData] = useState([]);
   const [startBalance, setStartingBalance] = useState(false);
   const [isRendered, setRendered] = useState(false);
+  const [showAddTransaction, setShowAddTransaction] = React.useState(false);
   const [formData, setFormData] = useState({
     nama_rumah_sakit: "",
     saldo: "",
@@ -45,7 +46,9 @@ const Dashboard = () => {
   const [newUser, setNewUser] = useState({
     photo: "",
   });
-
+  const handleOnClose = () => {
+    setShowAddTransaction(false);
+  };
   const { initialValue, isHavingInit } = formData;
   // console.log(formData);
   useEffect(() => {
@@ -215,7 +218,7 @@ const Dashboard = () => {
           <ToastContainer />
           <div className="bg-white h-40 md:h-[15%] rounded-lg flex justify-between px-5 w-full items-center md:items-start md:pt-5">
             <div className="xs:gap-8 md:gap-0 flex-none xm:flex justify-between pl-5 pr-10 md:pr-24 w-full">
-              <div className="xs:ml-4 items-center w-fit ">
+              <div className="xs:ml-4 items-center w-fit">
                 Your Money
                 <div className="font-medium h-3/5 place-items-start flex items-center">
                   {/* <div>Rp {dataHospital.hospital.saldo}</div> */}
@@ -238,9 +241,23 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          <div className="mt-5 bg-white flex flex-col  h-[83%] rounded-lg">
-            <div className="mx-8 mt-12 justify-between flex items-center">
+          <div className="mt-5 bg-white flex flex-col h-[83%] rounded-lg">
+            <div className="mx-8 mt-12 justify-between flex items-center pb-5">
               <p>Transactions</p>
+              <button
+                className=" bg-[#319C69] place-items-start rounded-md px-2 py-1 items-center text-white hover:text-[#263238] flex font-normal text-sm xm:text-base"
+                onClick={() => {
+                  setShowAddTransaction(true);
+                }}
+              >
+                <img
+                  className="mr-1 hidden xm:flex"
+                  src={PlusCircle}
+                  alt="PlusCircle"
+                />
+                <div className="hidden xm:flex">Add Inventory Cash</div>
+                <div className="flex xm:hidden font-medium px-1">Add New</div>
+              </button>
               {isHavingInit ? (
                 <>
                   {" "}
@@ -259,16 +276,13 @@ const Dashboard = () => {
                   </NavLink>
                 </>
               ) : (
-                <div className="bg-white place-items-start rounded-md px-2 py-1 items-center text-white flex font-normal text-base">
-                  {" "}
-                  Anda belum memberikan nilai awal tabungan
-                </div>
+                <></>
               )}
             </div>
-            <MapTenant tenantList={dataTransaksi}></MapTenant>
+            <MapTenant tenantList={dataTransaksi} />
           </div>
         </div>
-        <div className=" text-black font-black bg-white md:h[100%] md:w-1/3 rounded-lg w-[100%]">
+        <div className=" text-black font-black bg-white md:h-[100%] md:w-1/3 rounded-lg w-[100%]">
           <div className="pl-10 pt-5 md:pt-0 mt-5 ">Statistics</div>
           <div className="flex w-[95%] h-4/5 justify-center items-center font-extralight text-base pl-5 scale-90 md:scale-100 px-10 md:px-10">
             {isRendered ? (
@@ -282,6 +296,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      <AddTransaction onClose={handleOnClose} visible={showAddTransaction} />
     </div>
   );
 };

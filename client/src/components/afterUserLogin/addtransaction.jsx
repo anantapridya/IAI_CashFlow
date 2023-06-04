@@ -16,28 +16,15 @@ const AddTransaction = ({ visible, onClose }) => {
     if (e.target.id === "container") onClose();
   };
   const [formData, setFormData] = useState({
-    title: "",
-    pemasukan: 0,
-    deskripsi: "",
     pengeluaran: 0,
-    tabungan: 0,
-    date: "",
-    label: "",
-    kategori: "",
+    pemasukan: 0,
+    instansi: "Inventory",
+    deskripsi: "Kirim saldo untuk inventory app",
   });
-  const {
-    title,
-    pemasukan,
-    deskripsi,
-    label,
-    kategori,
-    pengeluaran,
-    tabungan,
-    date,
-  } = formData;
-  useEffect(() => {
-    console.log(formData);
-  }, [label]);
+  const { pengeluaran, pemasukan, instansi, deskripsi } = formData;
+  // useEffect(() => {
+  //   console.log(formData);
+  // }, [label]);
   const category = [
     { label: "Expense", value: "expense" },
     { label: "Income", value: "income" },
@@ -55,29 +42,25 @@ const AddTransaction = ({ visible, onClose }) => {
     console.log(token);
     e.preventDefault();
 
-    if (label == "") {
-      toast.error("You have to add the label ");
-      return null;
-    } else if (kategori == "") {
-      toast.error("You have to add the kategori ");
-      return null;
-    }
+    // if (label == "") {
+    //   toast.error("You have to add the label ");
+    //   return null;
+    // } else if (kategori == "") {
+    //   toast.error("You have to add the kategori ");
+    //   return null;
+    // }
 
     setFormData({ ...formData, textChange: "Submitting" });
-    if (!title == "") {
+    if (pengeluaran !== 0) {
       // setLoading(true);
       axios
         .post(
-          `${process.env.REACT_APP_API_URL}/addpost/${isAuth()._id}`,
+          `${process.env.REACT_APP_API_URL}/transaction/create`,
           {
-            title,
-            label,
-            kategori,
-            pemasukan,
-            deskripsi,
             pengeluaran,
-            tabungan,
-            date,
+            pemasukan,
+            instansi,
+            deskripsi,
           },
           {
             headers: {
@@ -101,7 +84,7 @@ const AddTransaction = ({ visible, onClose }) => {
           // });
         });
     } else {
-      toast.error("Title tidak boleh kosong");
+      toast.error("Pengeluaran tidak boleh kosong");
     }
   };
   return (
@@ -109,12 +92,12 @@ const AddTransaction = ({ visible, onClose }) => {
       id="container"
       className="font-Roboto fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center"
     >
-      <div className="bg-white p-5 rounded-lg w-[22rem] h-[28rem] flex flex-col">
+      <div className="bg-white p-5 rounded-lg w-[22rem] h-max flex flex-col">
         <ToastContainer />
-        <div className="font-bold text-xl">Add Transaction</div>
+        <div className="font-bold text-xl">Add Inventory Cash</div>
         <div className="flex items-center">
-          <form onSubmit={handleSubmit}>
-            <select
+          <form onSubmit={handleSubmit} className="w-full">
+            {/* <select
               name="By Labels"
               onChange={handleChange("label")}
               className="py-1 px-2 mt-4 w-full border border-black rounded-lg text-gray-700 focus:outline-none"
@@ -195,18 +178,26 @@ const AddTransaction = ({ visible, onClose }) => {
               type="date"
               className="py-0.5 px-2 mt-4 w-full border border-black rounded-lg text-gray-700"
               onChange={handleChange("date")}
-            />
-            <div className="flex mt-2 justify-end">
+            /> */}
+            <input
+              className="py-0.5 px-2 mt-4 w-full border border-black rounded-lg text-gray-700"
+              id="amount"
+              type="number"
+              value={pengeluaran}
+              placeholder="Pengeluaran"
+              onChange={handleChange("pengeluaran")}
+            ></input>
+            <div className="flex mt-2 justify-between">
               <button
                 type="button"
                 onClick={onClose}
-                className="bg-[#D9D9D9] hover:bg-gray-400 text-black mt-4 mr-4 w-1/3 py-1 rounded"
+                className="bg-[#D9D9D9] hover:bg-gray-400 text-black mt-4 mr-4 w-full py-1 rounded"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="bg-[#319C69] hover:bg-green-800 text-white mt-4 w-1/3 py-1 rounded"
+                className="bg-[#319C69] hover:bg-green-800 text-white mt-4 w-full py-1 rounded"
               >
                 Done
               </button>
