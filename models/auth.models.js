@@ -21,7 +21,6 @@ const treasurerSchema = new mongoose.Schema(
       required: true,
     },
     salt: String,
-
   },
 
   {
@@ -41,7 +40,7 @@ treasurerSchema
     return this._password;
   });
 
-  treasurerSchema.methods = {
+treasurerSchema.methods = {
   //Compare password between plain get from user and hashed
   authenticate: function (plainText) {
     return this.encryptPassword(plainText) === this.hashed_password;
