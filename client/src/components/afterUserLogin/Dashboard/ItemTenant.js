@@ -15,6 +15,7 @@ import {
 export default function ItemTenant(props, test) {
   useEffect(() => {}, []);
   const [deleted, setDeleted] = useState(false);
+  console.log(props.itemData.pemasukan);
 
   const handleOpenWarning = (e) => {
     setDeleted(!deleted);
@@ -74,6 +75,7 @@ export default function ItemTenant(props, test) {
   );
   console.log(src);
   console.log(props.pemasukan);
+  // console.log(itemData);
   return (
     <>
       {deleted ? (
@@ -108,40 +110,27 @@ export default function ItemTenant(props, test) {
       <div
         className={
           props.itemData.label === "income"
-            ? "grid font-medium xs:font-bold bg-white border-green-400 rounded-md px-2 items-center border-2 w-full grid-cols-4 md:grid-cols-6 sm:grid-cols-5 justify-between text-xs sm:text-base xm:text-sm m-2"
-            : "grid font-medium xs:font-bold bg-white border-red-400 rounded-md px-2 items-center border-2 w-full grid-cols-4 md:grid-cols-6 sm:grid-cols-5 justify-between text-xs sm:text-base xm:text-sm m-2"
+            ? "grid font-medium xs:font-bold bg-white border-green-400 rounded-md px-2 items-center border-2 w-full grid-cols-4 md:grid-cols-5 sm:grid-cols-5 justify-between text-xs sm:text-base xm:text-sm m-2"
+            : "grid font-medium xs:font-bold bg-white border-red-400 rounded-md px-2 items-center border-2 w-full grid-cols-4 md:grid-cols-5 sm:grid-cols-5 justify-between text-xs sm:text-base xm:text-sm m-2"
         }
       >
-        <div className="text-center">{props.itemData.label}</div>
-        <div className="flex capitalize items-center text-center justify-center">
-          <img src={`/transaction/${props.itemData.kategori}.svg`}></img>
-          {props.itemData.kategori}
+        <div className="text-center">{props.itemData.instansi}</div>
+        {/* <div className="flex capitalize items-center text-center justify-center">
+          Rp {props.itemData.pengeluaran}
+        </div> */}
+        <div className="text-red-400 text-center">
+          -Rp. {props.itemData.pengeluaran}
         </div>
 
-        {props.itemData.label === "income" ? (
-          <>
-            <div className="text-green-500 text-center">+Rp. {props.itemData.pemasukan}</div>
-          </>
-        ) : (
-          <></>
-        )}
-        {props.itemData.label === "expense" ? (
-          <>
-            <div className="text-red-400 text-center">-Rp. {props.itemData.pengeluaran}</div>
-          </>
-        ) : (
-          <></>
-        )}
+        <div className="text-green-500 text-center">
+          +Rp. {props.itemData.pemasukan}
+        </div>
 
-        <div className="hidden sm:block text-center">{props.itemData.date}</div>
-        <div className="hidden md:block text-center">{props.itemData.deskripsi}</div>
+        <div className="hidden md:block text-center">
+          {props.itemData.deskripsi}
+        </div>
         <div className=" flex justify-center items-center gap-5 flex-row">
-          <img
-            className="cursor-pointer"
-            onClick={handleOpenWarning}
-            src={Trash}
-            alt="Trash Icon"
-          ></img>
+          {props.itemData.createdAt}
         </div>
       </div>
     </>

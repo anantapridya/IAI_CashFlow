@@ -42,23 +42,26 @@ const Tenant = ({ tenantList, categoryName, loadPosts }) => {
             </>
           )}
           <div className="flex flex-col w-full p-5 ">
-            <div className="grid font-bold text-white  bg-[#319C69] h-16 rounded-md px-2 items-center border-2 w-full grid-cols-4 md:grid-cols-6 sm:grid-cols-5 justify-center sm:text-base xm:text-sm text-xs m-2">
-              <div className="mx-auto">Category</div>
-              <div className="mx-auto">Label</div>
-              <div className="mx-auto">Amount</div>
+            <div className="grid font-bold text-white  bg-[#319C69] h-16 rounded-md px-2 items-center border-2 w-full grid-cols-4 md:grid-cols-5 sm:grid-cols-5 justify-center sm:text-base xm:text-sm text-xs m-2">
+              <div className="mx-auto">Instansi</div>
+              <div className="mx-auto">Pengeluaran</div>
+              <div className="mx-auto">Pemasukkan</div>
+              <div className="mx-auto hidden md:block">Deskripsi</div>
               <div className="mx-auto hidden sm:block">Date</div>
-              <div className="mx-auto hidden md:block">Description</div>
-              <div className="mx-auto">Action</div>
+              {/* <div className="mx-auto">Action</div> */}
             </div>
 
             {tenantList.map((item) => {
               console.log(getDataDateFilter(7));
               console.log(compareDates(getDataDateFilter(7), "2022-11-22"));
+              console.log("data");
+              console.log(tenantList);
               return (
                 <>
+                  {/* <p>{item.pemasukkan}</p> */}
                   <ItemTenant
-                    key={item.id_tenant}
-                    test={loadPosts}
+                    key={item._id}
+                    test={tenantList}
                     itemData={item}
                   />
                 </>
