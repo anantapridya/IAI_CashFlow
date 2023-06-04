@@ -52,21 +52,17 @@ const Tenant = ({ tenantList, categoryName, loadPosts }) => {
             </div>
 
             {tenantList.map((item) => {
-              if (compareDates("2022-10-03", item.date) === false) {
-                console.log(getDataDateFilter(7));
-                console.log(compareDates(getDataDateFilter(7), "2022-11-22"));
-                return (
-                  <>
-                    <ItemTenant
-                      key={item.id_tenant}
-                      test={loadPosts}
-                      itemData={item}
-                    />
-                  </>
-                );
-              } else {
-                return <></>;
-              }
+              console.log(getDataDateFilter(7));
+              console.log(compareDates(getDataDateFilter(7), "2022-11-22"));
+              return (
+                <>
+                  <ItemTenant
+                    key={item.id_tenant}
+                    test={loadPosts}
+                    itemData={item}
+                  />
+                </>
+              );
             })}
           </div>
         </>
