@@ -1,9 +1,8 @@
 const mongoose = require("mongoose");
 const crypto = require("crypto");
-const postSchema = require("./post_models").schema;
 
 //User sChema
-const userSchema = new mongoose.Schema(
+const treasurerSchema = new mongoose.Schema(
   {
     email: {
       type: String,
@@ -17,48 +16,12 @@ const userSchema = new mongoose.Schema(
       trim: true,
       required: true,
     },
-    institusi: {
-      type: String,
-      default: "",
-    },
-    tabungan: {
-      type: Number,
-      default: 0,
-    },
-    pemasukan: {
-      type: Number,
-      default: 0,
-    },
-    pengeluaran: {
-      type: Number,
-      default: 0,
-    },
-    isHavingInit: {
-      type: Boolean,
-      default: false,
-    },
     hashed_password: {
       type: String,
       required: true,
     },
     salt: String,
-    role: {
-      type: String,
-      default: "Peserta",
-    },
-    link_profil: {
-      type: String,
-      default: "",
-    },
-    webinar: {
-      data: String,
-      default: "",
-    },
-    resetPasswordLink: {
-      data: String,
-      default: "",
-    },
-    posts: [postSchema],
+
   },
 
   {
@@ -67,7 +30,7 @@ const userSchema = new mongoose.Schema(
 );
 
 // Virtual Password
-userSchema
+treasurerSchema
   .virtual("password")
   .set(function (password) {
     this._password = password;
@@ -78,7 +41,7 @@ userSchema
     return this._password;
   });
 
-userSchema.methods = {
+  treasurerSchema.methods = {
   //Compare password between plain get from user and hashed
   authenticate: function (plainText) {
     return this.encryptPassword(plainText) === this.hashed_password;
@@ -101,4 +64,4 @@ userSchema.methods = {
   },
 };
 
-module.exports = mongoose.model("pengguna", userSchema);
+module.exports = mongoose.model("treasurer", treasurerSchema);
