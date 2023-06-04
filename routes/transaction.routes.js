@@ -1,19 +1,17 @@
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
 //Validation
 
-
 //Load controllers
-const{
-createTransaction,readdAllTransaction
+const {
+  createTransaction,
+  readdAllTransaction,
+  addInventSaldo,
+} = require("../controllers/transaction.controllers");
 
-} = require('../controllers/transaction.controllers');
+router.post("/create", createTransaction);
+router.get("/read", readdAllTransaction);
+router.post("/add/saldo", addInventSaldo);
 
-router.post('/create',createTransaction);
-router.get('/read',readdAllTransaction);
-
-
-
-
-module.exports=router
+module.exports = router;
