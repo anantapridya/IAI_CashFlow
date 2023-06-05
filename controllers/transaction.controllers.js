@@ -1,7 +1,7 @@
 const transactionModel = require("../models/transaction.models");
 const hospitalModel = require("../models/hospital_cash.models");
 const { errorHandler } = require("../helpers/dbErrorHandling.js");
-
+import axios from "axios";
 exports.createTransaction = async (req, res) => {
   const { pengeluaran, pemasukan, instansi, dokter_id, obat_id, deskripsi } =
     req.body;
