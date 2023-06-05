@@ -33,7 +33,13 @@ exports.createTransaction = async (req, res) => {
       });
     }
     //saving the data
-    hospital.saldo = hospital.saldo + pemasukan;
+    if (pemasukan != "") {
+      hospital.saldo = hospital.saldo + pemasukan;
+      hospital.pemasukan = pemasukan;
+    } else if (pengeluaran != " ") {
+      hospital.saldo = hospital.saldo - pengeluaran;
+      hospital.pengeluaran = pengeluaran;
+    }
 
     await hospital.save();
 

@@ -219,7 +219,7 @@ const Dashboard = () => {
           <div className="bg-white h-40 md:h-[15%] rounded-lg flex justify-between px-5 w-full items-center md:items-start md:pt-5">
             <div className="xs:gap-8 md:gap-0 flex-none xm:flex justify-between pl-5 pr-10 md:pr-24 w-full">
               <div className="xs:ml-4 items-center w-fit">
-                Your Money
+                Hospital Balance
                 <div className="font-medium h-3/5 place-items-start flex items-center">
                   {/* <div>Rp {dataHospital.hospital.saldo}</div> */}
                   <div>Rp {saldoRS}</div>
